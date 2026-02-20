@@ -1,0 +1,123 @@
+[
+  {
+    "signal_id": "DRS-2025-0142",
+    "protocol": "Aave V3",
+    "chain": "Ethereum",
+    "signal_type": "tvl_anomaly",
+    "severity": "high",
+    "confidence": 0.92,
+    "summary": "Aave V3 Ethereum TVL dropped 12.4% ($180M) in a 4-hour window. Correlates with large withdrawals from 3 whale wallets. No governance proposal or exploit detected.",
+    "timestamp": "2025-02-19T22:15:00Z",
+    "tags": ["aave", "ethereum", "tvl", "whale-activity"]
+  },
+  {
+    "signal_id": "DRS-2025-0143",
+    "protocol": "Uniswap V3",
+    "chain": "Base",
+    "signal_type": "liquidity_migration",
+    "severity": "medium",
+    "confidence": 0.78,
+    "summary": "Significant liquidity migration from Uniswap V3 on Ethereum to Base deployment. $45M in LP positions moved in 12 hours. Likely incentive-driven.",
+    "timestamp": "2025-02-19T20:30:00Z",
+    "tags": ["uniswap", "base", "ethereum", "liquidity", "migration"]
+  },
+  {
+    "signal_id": "DRS-2025-0144",
+    "protocol": "Curve Finance",
+    "chain": "Ethereum",
+    "signal_type": "contract_risk",
+    "severity": "critical",
+    "confidence": 0.95,
+    "summary": "Unusual interaction pattern detected on Curve stETH/ETH pool. Potential oracle manipulation attempt — 3 large swaps within same block from unverified contract. No funds lost yet.",
+    "timestamp": "2025-02-20T01:45:00Z",
+    "tags": ["curve", "ethereum", "oracle", "security", "steth"]
+  },
+  {
+    "signal_id": "DRS-2025-0145",
+    "protocol": "Compound V3",
+    "chain": "Ethereum",
+    "signal_type": "tvl_anomaly",
+    "severity": "low",
+    "confidence": 0.55,
+    "summary": "Compound V3 USDC market utilization rate briefly exceeded 95%, triggering elevated borrow rates. Returned to normal within 2 hours. Likely short-term arbitrage activity.",
+    "timestamp": "2025-02-19T15:00:00Z",
+    "tags": ["compound", "ethereum", "usdc", "utilization"]
+  },
+  {
+    "signal_id": "DRS-2025-0146",
+    "protocol": "GMX",
+    "chain": "Arbitrum",
+    "signal_type": "tvl_anomaly",
+    "severity": "medium",
+    "confidence": 0.81,
+    "summary": "GMX V2 on Arbitrum saw $28M in GLP redemptions over 6 hours, reducing pool depth by 8%. Open interest remains elevated, creating potential liquidity imbalance for large traders.",
+    "timestamp": "2025-02-19T18:20:00Z",
+    "tags": ["gmx", "arbitrum", "glp", "liquidity", "perps"]
+  },
+  {
+    "signal_id": "DRS-2025-0147",
+    "protocol": "Lido",
+    "chain": "Ethereum",
+    "signal_type": "contract_risk",
+    "severity": "low",
+    "confidence": 0.48,
+    "summary": "Minor discrepancy detected between Lido oracle reported stETH exchange rate and on-chain calculation. Delta of 0.02% — within acceptable range but flagged for monitoring.",
+    "timestamp": "2025-02-19T12:00:00Z",
+    "tags": ["lido", "ethereum", "steth", "oracle", "monitoring"]
+  },
+  {
+    "signal_id": "DRS-2025-0148",
+    "protocol": "Aave V3",
+    "chain": "Optimism",
+    "signal_type": "liquidity_migration",
+    "severity": "medium",
+    "confidence": 0.73,
+    "summary": "Aave V3 Optimism deposits increased 22% in 48 hours, primarily in WETH and USDC markets. Appears correlated with new incentive program announcement.",
+    "timestamp": "2025-02-19T09:30:00Z",
+    "tags": ["aave", "optimism", "deposits", "incentives"]
+  },
+  {
+    "signal_id": "DRS-2025-0149",
+    "protocol": "dYdX",
+    "chain": "Ethereum",
+    "signal_type": "tvl_anomaly",
+    "severity": "high",
+    "confidence": 0.87,
+    "summary": "dYdX perpetuals platform experienced 40% surge in open interest for ETH-USD pair in 3 hours. Funding rate spiked to 0.15% per 8 hours. Suggests leveraged directional positioning.",
+    "timestamp": "2025-02-20T04:00:00Z",
+    "tags": ["dydx", "ethereum", "perps", "open-interest", "funding-rate"]
+  },
+  {
+    "signal_id": "DRS-2025-0150",
+    "protocol": "Maker",
+    "chain": "Ethereum",
+    "signal_type": "contract_risk",
+    "severity": "medium",
+    "confidence": 0.68,
+    "summary": "MakerDAO governance proposal to increase DAI stability fee passed with unusually low voter participation (12% of MKR supply). Change takes effect in 48 hours.",
+    "timestamp": "2025-02-18T20:00:00Z",
+    "tags": ["maker", "ethereum", "dai", "governance", "stability-fee"]
+  },
+  {
+    "signal_id": "DRS-2025-0151",
+    "protocol": "Balancer",
+    "chain": "Arbitrum",
+    "signal_type": "liquidity_migration",
+    "severity": "low",
+    "confidence": 0.52,
+    "summary": "Gradual outflow from Balancer weighted pools on Arbitrum over past week. ~$8M migrated to concentrated liquidity positions on Uniswap V3. Normal competitive dynamics.",
+    "timestamp": "2025-02-18T16:45:00Z",
+    "tags": ["balancer", "arbitrum", "uniswap", "liquidity", "migration"]
+  },
+  {
+    "signal_id": "DRS-2025-0152",
+    "protocol": "Aave V3",
+    "chain": "Base",
+    "signal_type": "tvl_anomaly",
+    "severity": "high",
+    "confidence": 0.89,
+    "summary": "Aave V3 Base deployment TVL surpassed $500M for the first time. 60% of deposits in USDC, suggesting stablecoin yield-seeking behavior. Rapid growth may outpace risk parameter tuning.",
+    "timestamp": "2025-02-20T06:00:00Z",
+    "tags": ["aave", "base", "tvl", "growth", "stablecoin"]
+  }
+]

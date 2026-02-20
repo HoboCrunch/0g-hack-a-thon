@@ -1,0 +1,119 @@
+[
+  {
+    "feed_id": "defi-risk-signals",
+    "name": "DeFi Protocol Risk Signals",
+    "description": "Real-time risk signals across major DeFi protocols including TVL anomalies, smart contract risk flags, and liquidity migration patterns. Covers Ethereum, Arbitrum, Base, and Optimism.",
+    "category": "defi",
+    "query_pattern": "alert",
+    "provider": {
+      "name": "Sentinel Risk Labs",
+      "id": "0x7a3bC41e9D2f8A05c19bE38d09f2e",
+      "reputation_score": 94
+    },
+    "query_cost_credits": 3,
+    "data_file": "feeds/defi-risk-signals.json",
+    "storage_hash": "pending_0g_upload",
+    "storage_network": "0G",
+    "last_updated": "2025-02-19T14:30:00Z",
+    "update_frequency": "every 15 minutes",
+    "schema": {
+      "fields": [
+        { "name": "signal_id", "type": "string", "description": "Unique signal identifier (DRS-YYYY-XXXX)" },
+        { "name": "protocol", "type": "string", "description": "Protocol name (e.g., Aave, Uniswap, Curve)" },
+        { "name": "chain", "type": "string", "description": "Blockchain network (Ethereum, Arbitrum, Base, Optimism)" },
+        { "name": "signal_type", "type": "string", "description": "tvl_anomaly | contract_risk | liquidity_migration" },
+        { "name": "severity", "type": "string", "description": "low | medium | high | critical" },
+        { "name": "confidence", "type": "number", "description": "Confidence score 0.0 to 1.0" },
+        { "name": "summary", "type": "string", "description": "Human-readable signal description" },
+        { "name": "timestamp", "type": "string", "description": "ISO 8601 timestamp" },
+        { "name": "tags", "type": "array", "description": "Relevant tags for filtering" }
+      ]
+    },
+    "sample_queries": [
+      "Show all critical severity signals",
+      "Filter by confidence >= 0.8 in the last 24 hours",
+      "Signals related to Ethereum chain protocols",
+      "All TVL anomaly signals"
+    ]
+  },
+  {
+    "feed_id": "smb-benchmarks",
+    "name": "SMB Industry Benchmarks",
+    "description": "Comprehensive operational benchmarks for small and medium businesses. Covers key financial and operational metrics segmented by industry vertical and company size tier. Based on quarterly surveys of 5,000+ SMBs across North America.",
+    "category": "business-operations",
+    "query_pattern": "comparative",
+    "provider": {
+      "name": "BenchmarkIQ Analytics",
+      "id": "benchmarkiq-analytics",
+      "reputation_score": 96
+    },
+    "query_cost_credits": 4,
+    "data_file": "feeds/smb-benchmarks.json",
+    "storage_hash": "pending_0g_upload",
+    "storage_network": "0G",
+    "last_updated": "2025-02-15T00:00:00Z",
+    "update_frequency": "monthly",
+    "schema": {
+      "fields": [
+        { "name": "benchmark_id", "type": "string", "description": "Unique benchmark identifier (BMK-XXX-XX-NNN)" },
+        { "name": "industry", "type": "string", "description": "Industry vertical (manufacturing, professional-services, food-service, retail, construction, healthcare)" },
+        { "name": "metric", "type": "string", "description": "Metric key (facilities_maintenance_pct, it_spend_pct, employee_turnover_rate, gross_margin_pct, revenue_per_employee)" },
+        { "name": "metric_label", "type": "string", "description": "Human-readable metric name" },
+        { "name": "company_size_tier", "type": "string", "description": "Employee count tier: 1-25, 25-100, 100-500" },
+        { "name": "p25", "type": "number", "description": "25th percentile value" },
+        { "name": "p50", "type": "number", "description": "50th percentile (median)" },
+        { "name": "p75", "type": "number", "description": "75th percentile value" },
+        { "name": "p90", "type": "number", "description": "90th percentile value" },
+        { "name": "unit", "type": "string", "description": "Unit of measurement" },
+        { "name": "sample_size", "type": "number", "description": "Number of companies surveyed" },
+        { "name": "last_survey", "type": "string", "description": "Survey period (e.g., 2025-Q1)" },
+        { "name": "interpretation", "type": "string", "description": "Contextual guidance for interpreting this benchmark" }
+      ]
+    },
+    "sample_queries": [
+      "What's the median facilities maintenance spend for manufacturing companies with 25-100 employees?",
+      "How does 22% gross margin compare for a food service business?",
+      "IT spend benchmarks for professional services firms under 50 employees",
+      "Employee turnover rate benchmarks across all industries"
+    ]
+  },
+  {
+    "feed_id": "labor-market-intel",
+    "name": "Labor Market Intelligence",
+    "description": "Trend signals on hiring velocity, salary movements, skills demand shifts, and workforce policy changes. Aggregated from job postings, compensation surveys, and employer reports across major markets.",
+    "category": "workforce",
+    "query_pattern": "trend",
+    "provider": {
+      "name": "Praxis Workforce Analytics",
+      "id": "0x9e2fB73a1C45d80E62bA47c7d",
+      "reputation_score": 89
+    },
+    "query_cost_credits": 3,
+    "data_file": "feeds/labor-market-intel.json",
+    "storage_hash": "pending_0g_upload",
+    "storage_network": "0G",
+    "last_updated": "2025-02-18T12:00:00Z",
+    "update_frequency": "weekly",
+    "schema": {
+      "fields": [
+        { "name": "signal_id", "type": "string", "description": "Unique signal identifier (LMI-YYYY-XXXX)" },
+        { "name": "role_category", "type": "string", "description": "Role category (engineering, sales, operations, data-science, product, design, finance, hr)" },
+        { "name": "region", "type": "string", "description": "Geographic scope (us-national, us-west, us-east, eu, apac, remote-global)" },
+        { "name": "trend_type", "type": "string", "description": "hiring_velocity | salary_shift | skills_demand | remote_policy | layoff_pattern" },
+        { "name": "trend_direction", "type": "string", "description": "increasing | decreasing | stable" },
+        { "name": "magnitude_pct", "type": "number", "description": "Percentage change" },
+        { "name": "severity", "type": "string", "description": "low | medium | high | critical" },
+        { "name": "confidence", "type": "number", "description": "Confidence score 0.0 to 1.0" },
+        { "name": "summary", "type": "string", "description": "Human-readable trend description" },
+        { "name": "timestamp", "type": "string", "description": "ISO 8601 timestamp" },
+        { "name": "tags", "type": "array", "description": "Relevant tags for filtering" }
+      ]
+    },
+    "sample_queries": [
+      "What are the hiring trends for engineering roles nationally?",
+      "Are salaries increasing or decreasing for data science positions?",
+      "Remote work policy trends in the last month",
+      "High-confidence signals about layoff patterns"
+    ]
+  }
+]
