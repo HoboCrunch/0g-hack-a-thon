@@ -1,4 +1,4 @@
-import { ZgFile, Indexer } from '@0glabs/0g-ts-sdk';
+import { ZgFile, Indexer } from '@0gfoundation/0g-ts-sdk';
 import { ethers } from 'ethers';
 
 const RPC_URL = 'https://evmrpc-testnet.0g.ai';
@@ -23,7 +23,7 @@ export async function uploadFeed(filePath: string, privateKey: string): Promise<
   const rootHash = tree!.rootHash();
   if (!rootHash) throw new Error('Failed to compute root hash');
 
-  const [tx, uploadErr] = await indexer.upload(file, RPC_URL, signer);
+  const [tx, uploadErr] = await indexer.upload(file, RPC_URL, signer as any);
   if (uploadErr) throw new Error(`Upload error: ${uploadErr}`);
 
   await file.close();
