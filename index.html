@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tessera — Intelligence Access Protocol for AI Agents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root {
+  --bg: #0a0a0c;
+  --surface: #111114;
+  --surface-2: #18181c;
+  --border: #2a2a30;
+  --border-light: #3a3a42;
+  --text: #e8e6e3;
+  --text-dim: #8a8890;
+  --text-muted: #5a5860;
+  --accent: #c4f04d;
+  --accent-dim: #8ab030;
+  --accent-glow: rgba(196, 240, 77, 0.08);
+  --blue: #5b8def;
+  --orange: #e8945a;
+  --pink: #d46b8c;
+  --cyan: #4ecdc4;
+  --tile-1: #c4f04d;
+  --tile-2: #5b8def;
+  --tile-3: #e8945a;
+  --tile-4: #d46b8c;
+  --tile-5: #4ecdc4;
+  --mono: 'DM Mono', monospace;
+  --serif: 'Instrument Serif', serif;
+  --sans: 'Manrope', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Mosaic background pattern ─── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(90deg, var(--border) 1px, transparent 1px),
+    linear-gradient(var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Sections ─── */
+section {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 32px;
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent-dim);
+  padding: 6px 16px;
+  border-radius: 2px;
+  margin-bottom: 40px;
+  background: var(--accent-glow);
+  animation: fadeIn 0.8s ease;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 1px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+  animation: slideUp 0.6s ease;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  font-size: 20px;
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+  animation: slideUp 0.6s ease 0.1s both;
+}
+
+.hero-mosaic {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  max-width: 400px;
+  margin-bottom: 48px;
+  animation: slideUp 0.6s ease 0.2s both;
+}
+
+.tile {
+  aspect-ratio: 1;
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.tile:hover { opacity: 1; transform: scale(1.1); }
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  animation: slideUp 0.6s ease 0.3s both;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ─── Section headers ─── */
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+h2 em { color: var(--accent); font-style: italic; }
+
+.section-text {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 640px;
+  line-height: 1.7;
+}
+
+/* ─── Divider ─── */
+.divider {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.divider-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+}
+
+/* ─── Architecture ─── */
+.arch-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 48px;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+.arch-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  transition: border-color 0.3s;
+}
+
+.arch-step:hover { border-color: var(--accent-dim); }
+
+.arch-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.arch-step:nth-child(1) .arch-icon { background: rgba(196,240,77,0.12); }
+.arch-step:nth-child(2) .arch-icon { background: rgba(91,141,239,0.12); }
+.arch-step:nth-child(3) .arch-icon { background: rgba(232,148,90,0.12); }
+.arch-step:nth-child(4) .arch-icon { background: rgba(78,205,196,0.12); }
+.arch-step:nth-child(5) .arch-icon { background: rgba(212,107,140,0.12); }
+
+.arch-arrow {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 18px;
+  padding: 4px 0;
+}
+
+.arch-text { color: var(--text-dim); }
+.arch-text strong { color: var(--text); font-weight: 600; }
+
+/* ─── Feed Cards ─── */
+.feeds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.feed-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 32px;
+  transition: border-color 0.3s, transform 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.feed-card:hover { border-color: var(--border-light); transform: translateY(-2px); }
+
+.feed-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.feed-card:nth-child(1)::before { background: var(--tile-1); }
+.feed-card:nth-child(2)::before { background: var(--tile-2); }
+.feed-card:nth-child(3)::before { background: var(--tile-3); }
+
+.feed-pattern {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.feed-card:nth-child(1) .feed-pattern { color: var(--tile-1); }
+.feed-card:nth-child(2) .feed-pattern { color: var(--tile-2); }
+.feed-card:nth-child(3) .feed-pattern { color: var(--tile-3); }
+
+.feed-name {
+  font-family: var(--serif);
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.feed-question {
+  font-style: italic;
+  color: var(--text-dim);
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.feed-desc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.feed-cost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 4px 12px;
+  background: var(--surface-2);
+  border-radius: 2px;
+}
+
+/* ─── The Moment ─── */
+.moment {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-top: 48px;
+  overflow: hidden;
+}
+
+.moment-header {
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.moment-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s infinite;
+}
+
+.moment-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.moment-prompt {
+  padding: 32px;
+  border-bottom: 1px solid var(--border);
+  font-size: 18px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.6;
+  background: var(--accent-glow);
+}
+
+.moment-response {
+  padding: 32px;
+}
+
+.moment-response pre {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  overflow-x: auto;
+}
+
+.moment-response pre .key { color: var(--blue); }
+.moment-response pre .str { color: var(--accent); }
+.moment-response pre .num { color: var(--orange); }
+.moment-response pre .comment { color: var(--text-muted); font-style: italic; }
+
+.moment-insight {
+  margin-top: 24px;
+  padding: 20px 24px;
+  background: var(--surface-2);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+
+.moment-insight strong { color: var(--accent); }
+
+/* ─── 0G Section ─── */
+.hashes-table {
+  width: 100%;
+  margin-top: 32px;
+  border-collapse: collapse;
+}
+
+.hashes-table th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hashes-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+
+.hashes-table td:first-child {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hash {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent-dim);
+  word-break: break-all;
+}
+
+.hash-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.hash-status::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+/* ─── Tools ─── */
+.tools-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 48px;
+}
+
+.tool-item {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  align-items: center;
+  transition: border-color 0.3s;
+}
+
+.tool-item:hover { border-color: var(--border-light); }
+
+.tool-name {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--cyan);
+}
+
+.tool-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+/* ─── Credits flow ─── */
+.credits-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+}
+
+.credit-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.credit-amount {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.credit-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.credit-arrow {
+  color: var(--text-muted);
+  font-size: 20px;
+}
+
+/* ─── Quick start ─── */
+.code-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-top: 32px;
+  overflow: hidden;
+}
+
+.code-header {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.code-header .dot { width: 10px; height: 10px; border-radius: 50%; }
+.code-header .dot:nth-child(1) { background: #ff5f57; }
+.code-header .dot:nth-child(2) { background: #febc2e; }
+.code-header .dot:nth-child(3) { background: #28c840; }
+
+.code-body {
+  padding: 20px 24px;
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--text-dim);
+  overflow-x: auto;
+}
+
+.code-body .prompt { color: var(--accent); }
+.code-body .cmd { color: var(--text); }
+.code-body .cmt { color: var(--text-muted); }
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center;
+  padding: 60px 32px;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-text {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.footer-link {
+  color: var(--accent-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-link:hover { color: var(--accent); }
+
+/* ─── Why 0G ─── */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.why-card {
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.why-card h4 {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--blue);
+  margin-bottom: 8px;
+}
+
+.why-card p {
+  font-size: 14px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ─── Build status ─── */
+.build-phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.build-phase {
+  padding: 20px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.build-check {
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.build-info h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.build-info p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  section { padding: 60px 20px; }
+  .hero-stats { gap: 32px; flex-wrap: wrap; }
+  .tool-item { grid-template-columns: 1fr; gap: 8px; }
+  .credits-flow { gap: 4px; }
+  .credit-step { padding: 12px 16px; }
+  .arch-step { flex-direction: column; text-align: center; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="hero-badge">Built on 0G Decentralized Storage</div>
+
+  <h1><em>Tessera</em><br>Intelligence Access<br>Protocol</h1>
+
+  <p class="hero-sub">AI agents discover, pay for, and query licensed data feeds through MCP — with every byte stored immutably on 0G.</p>
+
+  <div class="hero-mosaic">
+    <div class="tile" style="background:var(--tile-1)"></div>
+    <div class="tile" style="background:var(--tile-2)"></div>
+    <div class="tile" style="background:var(--tile-3)"></div>
+    <div class="tile" style="background:var(--tile-4)"></div>
+    <div class="tile" style="background:var(--tile-5)"></div>
+    <div class="tile" style="background:var(--tile-2); opacity:0.4"></div>
+    <div class="tile" style="background:var(--tile-1); opacity:0.5"></div>
+    <div class="tile" style="background:var(--tile-5); opacity:0.6"></div>
+    <div class="tile" style="background:var(--tile-3); opacity:0.3"></div>
+    <div class="tile" style="background:var(--tile-4); opacity:0.5"></div>
+    <div class="tile" style="background:var(--tile-3); opacity:0.6"></div>
+    <div class="tile" style="background:var(--tile-4); opacity:0.4"></div>
+    <div class="tile" style="background:var(--tile-1); opacity:0.3"></div>
+    <div class="tile" style="background:var(--tile-2); opacity:0.5"></div>
+    <div class="tile" style="background:var(--tile-5); opacity:0.4"></div>
+  </div>
+
+  <p style="font-style:italic; color:var(--text-muted); margin-bottom:40px; font-family:var(--serif); font-size:18px;">Each intelligence feed is a tile. The agent assembles the mosaic.</p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-value">3</span>
+      <span class="stat-label">Intelligence Feeds</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">4</span>
+      <span class="stat-label">MCP Tools</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">36</span>
+      <span class="stat-label">Data Records</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">46/46</span>
+      <span class="stat-label">Tests Passing</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ THE PROBLEM ═══════ -->
+<section>
+  <div class="section-label">The Problem</div>
+  <h2>Agents can't access <em>intelligence</em></h2>
+  <p class="section-text">AI agents can browse, code, and transact — but there's no native way for them to access premium data. APIs require human developers to hardcode integrations. Scraping is fragile. RAG is internal-only. There's no agent-native data marketplace.</p>
+  <p class="section-text" style="margin-top:20px; color:var(--accent-dim);"><strong style="color:var(--accent)">Tessera is the missing infrastructure layer.</strong> Data providers publish structured intelligence feeds to 0G Storage. Agents discover, query, and pay for access through MCP tool calls. The interface isn't a dashboard — it's a tool call inside the agent's reasoning loop.</p>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ ARCHITECTURE ═══════ -->
+<section>
+  <div class="section-label">Architecture</div>
+  <h2>Three layers, <em>one protocol</em></h2>
+  <p class="section-text">0G is the storage layer. Tessera is the access layer. MCP is the interface layer.</p>
+
+  <div class="arch-flow">
+    <div class="arch-step">
+      <div class="arch-icon">&#9998;</div>
+      <div class="arch-text"><strong>Data Provider</strong> publishes structured feed JSON</div>
+    </div>
+    <div class="arch-arrow">&darr;</div>
+    <div class="arch-step">
+      <div class="arch-icon">&#9830;</div>
+      <div class="arch-text"><strong>0G Storage</strong> stores feed with content-addressed root hash (Galileo testnet)</div>
+    </div>
+    <div class="arch-arrow">&darr;</div>
+    <div class="arch-step">
+      <div class="arch-icon">&#9638;</div>
+      <div class="arch-text"><strong>Tessera Registry</strong> indexes feeds, schemas, pricing, and 0G hashes</div>
+    </div>
+    <div class="arch-arrow">&darr;</div>
+    <div class="arch-step">
+      <div class="arch-icon">&#9881;</div>
+      <div class="arch-text"><strong>Agent calls MCP tool</strong> &rarr; Tessera filters data, deducts credits, returns results</div>
+    </div>
+    <div class="arch-arrow">&darr;</div>
+    <div class="arch-step">
+      <div class="arch-icon">&#9745;</div>
+      <div class="arch-text"><strong>Full audit trail</strong> &mdash; every query logged, every credit tracked, every provider paid</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ THREE FEEDS ═══════ -->
+<section>
+  <div class="section-label">Intelligence Feeds</div>
+  <h2>Three feeds, three <em>patterns</em></h2>
+  <p class="section-text">Each feed demonstrates a different intelligence pattern. One generic query engine handles all three — proving Tessera is a protocol, not a wrapper.</p>
+
+  <div class="feeds-grid">
+    <div class="feed-card">
+      <div class="feed-pattern">Alert Pattern</div>
+      <div class="feed-name">DeFi Risk Signals</div>
+      <div class="feed-question">"What happened?"</div>
+      <div class="feed-desc">Real-time risk signals across major DeFi protocols. TVL anomalies, smart contract vulnerabilities, liquidity migrations. Severity + confidence scoring.</div>
+      <div class="feed-cost">3 credits / query</div>
+    </div>
+    <div class="feed-card">
+      <div class="feed-pattern">Comparative Pattern</div>
+      <div class="feed-name">SMB Industry Benchmarks</div>
+      <div class="feed-question">"How do I compare?"</div>
+      <div class="feed-desc">Percentile distributions for business metrics across industries and company sizes. Facilities costs, IT spend, margins, turnover rates.</div>
+      <div class="feed-cost">4 credits / query</div>
+    </div>
+    <div class="feed-card">
+      <div class="feed-pattern">Trend Pattern</div>
+      <div class="feed-name">Labor Market Intelligence</div>
+      <div class="feed-question">"What's shifting?"</div>
+      <div class="feed-desc">Directional changes in hiring velocity, salary shifts, skills demand across roles and regions. Magnitude + trend direction.</div>
+      <div class="feed-cost">3 credits / query</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ THE MOMENT ═══════ -->
+<section>
+  <div class="section-label">Live Demo</div>
+  <h2>The <em>moment</em></h2>
+  <p class="section-text">Not crypto. Not speculation. Real business intelligence — delivered through an agent protocol, verified on 0G.</p>
+
+  <div class="moment">
+    <div class="moment-header">
+      <div class="moment-dot"></div>
+      <div class="moment-label">tessera_query_feed</div>
+    </div>
+    <div class="moment-prompt">
+      "I'm advising a manufacturing client with 40 employees. They spend about 8% of revenue on facilities maintenance. Is that high?"
+    </div>
+    <div class="moment-response">
+<pre>{
+  <span class="key">"query_metadata"</span>: {
+    <span class="key">"feed_id"</span>: <span class="str">"smb-benchmarks"</span>,
+    <span class="key">"query_cost"</span>: <span class="num">4</span>,
+    <span class="key">"credits_remaining"</span>: <span class="num">93</span>,
+    <span class="key">"storage_hash"</span>: <span class="str">"0xbb745d...ea32"</span>,
+    <span class="key">"storage_network"</span>: <span class="str">"0G"</span>
+  },
+  <span class="key">"results"</span>: [{
+    <span class="key">"industry"</span>: <span class="str">"manufacturing"</span>,
+    <span class="key">"metric"</span>: <span class="str">"facilities_maintenance_pct"</span>,
+    <span class="key">"company_size_tier"</span>: <span class="str">"25-100"</span>,
+    <span class="key">"p25"</span>: <span class="num">3.1</span>,
+    <span class="key">"p50"</span>: <span class="num">5.2</span>,    <span class="comment">// &larr; median</span>
+    <span class="key">"p75"</span>: <span class="num">7.8</span>,
+    <span class="key">"p90"</span>: <span class="num">10.4</span>,
+    <span class="key">"unit"</span>: <span class="str">"percent_of_revenue"</span>
+  }]
+}</pre>
+      <div class="moment-insight">
+        <strong>Result:</strong> At 8%, the client is above the 75th percentile (~82nd percentile). The median for their size and industry is 5.2%. Data verified on 0G Storage.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ 0G STORAGE ═══════ -->
+<section>
+  <div class="section-label">0G Integration</div>
+  <h2>Verified on <em>0G Storage</em></h2>
+  <p class="section-text">Every feed is uploaded to the 0G Galileo testnet. Every query response carries the content-addressed hash. Tamper-proof, provider-owned, independently verifiable.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <h4>Content-Addressed</h4>
+      <p>Any tampering breaks the merkle root hash. Data integrity is cryptographically guaranteed — not just promised.</p>
+    </div>
+    <div class="why-card">
+      <h4>Provider-Owned</h4>
+      <p>Feeds live on decentralized storage. No middleman controls access, no single point of failure, no censorship risk.</p>
+    </div>
+    <div class="why-card">
+      <h4>Verifiable</h4>
+      <p>Every query response includes the 0G storage hash. Agents and humans can independently verify the data source.</p>
+    </div>
+  </div>
+
+  <table class="hashes-table" style="margin-top:40px;">
+    <thead>
+      <tr>
+        <th>Feed</th>
+        <th>0G Root Hash</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>DeFi Risk Signals</td>
+        <td><span class="hash">0xee0d7f949b3cd8152567c338c368a6376c96d47b5dbca39b7ff2002eaea0b031</span></td>
+        <td><span class="hash-status">Galileo Testnet</span></td>
+      </tr>
+      <tr>
+        <td>SMB Benchmarks</td>
+        <td><span class="hash">0xbb745d3ac8aec2a1d4dda8c46e3e16ab8a124798a30db00a73c72af2510aea32</span></td>
+        <td><span class="hash-status">Galileo Testnet</span></td>
+      </tr>
+      <tr>
+        <td>Labor Market Intel</td>
+        <td><span class="hash">0x5791b5f0e6393d37b4619ba0dac23694ef676c651889403cfd4832f68a0acdf7</span></td>
+        <td><span class="hash-status">Galileo Testnet</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ MCP TOOLS ═══════ -->
+<section>
+  <div class="section-label">MCP Interface</div>
+  <h2>Four tools, <em>any agent</em></h2>
+
+  <div class="tools-list">
+    <div class="tool-item">
+      <div class="tool-name">tessera_list_feeds</div>
+      <div class="tool-desc">Discover available intelligence feeds. Filter by category. Returns names, pricing, 0G storage info.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">tessera_get_feed_metadata</div>
+      <div class="tool-desc">Detailed schema, sample queries, provider info, and 0G storage hash for any feed.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">tessera_query_feed</div>
+      <div class="tool-desc">Query with filters. Deducts credits. Returns structured results with 0G provenance.</div>
+    </div>
+    <div class="tool-item">
+      <div class="tool-name">tessera_check_usage</div>
+      <div class="tool-desc">Full audit trail — credit balance, per-query log, per-provider earnings. Every credit accounted.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ CREDITS ═══════ -->
+<section>
+  <div class="section-label">Metering</div>
+  <h2>Pay-per-<em>intelligence</em></h2>
+  <p class="section-text">Every query costs credits. Every provider earns. Every transaction is logged. Agents manage their own budgets.</p>
+
+  <div class="credits-flow">
+    <div class="credit-step">
+      <div class="credit-amount">100</div>
+      <div class="credit-label">Start</div>
+    </div>
+    <div class="credit-arrow">&rarr;</div>
+    <div class="credit-step" style="border-color:var(--tile-1)">
+      <div class="credit-amount">97</div>
+      <div class="credit-label">DeFi (-3)</div>
+    </div>
+    <div class="credit-arrow">&rarr;</div>
+    <div class="credit-step" style="border-color:var(--tile-2)">
+      <div class="credit-amount">93</div>
+      <div class="credit-label">SMB (-4)</div>
+    </div>
+    <div class="credit-arrow">&rarr;</div>
+    <div class="credit-step" style="border-color:var(--tile-3)">
+      <div class="credit-amount">90</div>
+      <div class="credit-label">Labor (-3)</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ═══════ QUICK START ═══════ -->
+<section>
+  <div class="section-label">Get Started</div>
+  <h2>Clone, install, <em>query</em></h2>
+
+  <div class="code-block">
+    <div class="code-header">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span style="margin-left:12px">terminal</span>
+    </div>
+    <div class="code-body">
+<span class="cmt"># Clone and install</span>
+<span class="prompt">$</span> <span class="cmd">git clone https://github.com/HoboCrunch/0g-hack-a-thon.git</span>
+<span class="prompt">$</span> <span class="cmd">cd 0g-hack-a-thon/tessera && npm install</span>
+
+<span class="cmt"># Start the MCP server</span>
+<span class="prompt">$</span> <span class="cmd">npm start</span>
+
+<span class="cmt"># Run the demo test suite (46 assertions)</span>
+<span class="prompt">$</span> <span class="cmd">npm test</span>
+    </div>
+  </div>
+
+  <div class="build-phases" style="margin-top:40px;">
+    <div class="build-phase">
+      <span class="build-check">&#10003;</span>
+      <div class="build-info">
+        <h4>Phase 1: 0G Storage</h4>
+        <p>3 feeds uploaded, real hashes</p>
+      </div>
+    </div>
+    <div class="build-phase">
+      <span class="build-check">&#10003;</span>
+      <div class="build-info">
+        <h4>Phase 2: Core Logic</h4>
+        <p>Registry, ledger, query engine</p>
+      </div>
+    </div>
+    <div class="build-phase">
+      <span class="build-check">&#10003;</span>
+      <div class="build-info">
+        <h4>Phase 3: MCP Server</h4>
+        <p>All 4 tools registered</p>
+      </div>
+    </div>
+    <div class="build-phase">
+      <span class="build-check">&#10003;</span>
+      <div class="build-info">
+        <h4>Phase 4: Demo Tested</h4>
+        <p>46/46 assertions passing</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<div class="divider"><div class="divider-line"></div></div>
+
+<footer class="footer">
+  <p class="footer-text">
+    Tessera &mdash; Built for the 0G Hackathon, February 2025<br>
+    <a class="footer-link" href="https://github.com/HoboCrunch/0g-hack-a-thon" target="_blank">github.com/HoboCrunch/0g-hack-a-thon</a>
+    &nbsp;&middot;&nbsp;
+    <a class="footer-link" href="https://0g.ai" target="_blank">0g.ai</a>
+  </p>
+</footer>
+
+</body>
+</html>
